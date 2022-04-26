@@ -1,0 +1,35 @@
+Part I: creating and modifying tables
+1. Use flyway to migrate the scripts from src/main/resources/db/migration
+2. Add to your first script SQL instructions to insert one row into job_history table.
+3. Create table pay with a one-to-one relation to employees
+    cardNr(PK)
+    salary(transfered from employees)
+    commission_pct(transfered from employees)
+4. Create table projects with a many-to-many relation to employees
+    project_id (PK)
+    project_description (constaint: the text length should be greater than 10)
+    project_investments
+    constraint: value should be greater than 0
+    investments should be measured in thousands (the number should end with at least 3 zeros:
+        anything less than 500 is 0.
+        anything between 500 and 1499 should be 1000,
+        anything between 1500 and 2499 should be 2000
+        (hint: investigate number data type precision and scale)
+    project_revenue
+    somewhere should be stored information about amount of hours an employee has been working on a project
+
+Part II: Triggers
+1. Trigger creation I
+    add department_amount column to locations table
+    add comment "Contains the amount of departments in the location“
+    create a trigger, which will update the amount of departments in locations every time a row is inserted in/deleted from departments
+2. Trigger creation II
+   create table employment_logs
+        employment_log_id
+        first_name
+        last_name
+        employment_action (can be only 'HIRED' or 'FIRED')
+        employment_status_updtd_tmstmp
+    each time a row is INSERTED INTO or DELETED FROM employees table, corresponding log should be inserted into employment_logs table
+    log's insertion should happen inside of a stored procedure
+    to think about: What problem would we face, if we add employee_id as FK into employment_logs table?
